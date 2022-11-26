@@ -1,0 +1,162 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class GameController : MonoBehaviour
+{
+    public CurrentTextPosition currentTextPosition;
+    public Timer timer;
+    public GameObject TitleText;
+    public GameObject gameOverText;
+    public Text scoreText;
+    public GameObject ResultText;
+    public GameObject TimerText;
+    public GameObject GameCrearStageNextText;
+    public GameObject BestTimeText; ///BestTimeを表示するTextオブジェクト
+    public GameObject currentText; //右上で計測しているタイムのテキスト
+    public int score = 0;
+    //  ステージ数のテキスト
+    public Text stageNumberText;
+    public GameObject stageNextButton;
+    public GameObject retryButton;
+    public GameObject Playership1;
+    public GameObject shootingenemy1Prefab;
+    public GameObject advancedEnemy1Prefab;
+    public GameObject Enemy3rdPrefab;
+    public GameObject EnemyMissilePrefab;
+    public GameObject EnemyGenerater;
+    public GameObject Enemy2ndGenerater;
+    public GameObject bulletPrefab;
+
+    bool freezeUpdate;
+    AudioSource audioSource;
+    public AudioClip clearSE;
+    public AudioClip resultSE;
+    public AudioClip nextStageSE;
+    public AudioClip BestTimeSE;
+
+
+    public void Start()    
+    {
+        currentText.SetActive(true);
+        gameOverText.SetActive(false);
+        stageNextButton.SetActive(false);
+        retryButton.SetActive(false);
+        GameCrearStageNextText.SetActive(false);
+        TimerText.SetActive(true);
+        BestTimeText.SetActive(false);
+        ResultText.SetActive(false);
+        scoreText.text = "SCORE:" + score;
+        audioSource = GetComponent<AudioSource>();
+
+
+    }
+
+    public void AddScore()　　//Scoreを100ずつ増やす
+    {
+        score += 100;
+        scoreText.text = "SCORE:" + score;
+
+        if (score == 1000)
+        {
+
+
+            Invoke("GameCrearStage", 3);
+            Invoke("Result", 6);
+            Invoke("stageNext", 13);
+            Invoke("BestTime", 9);
+            timer.StopTimer();
+            Debug.Log("止まったよ");
+            Destroy(Playership1);
+            Destroy(shootingenemy1Prefab);
+            Destroy(advancedEnemy1Prefab);
+            Destroy(Enemy3rdPrefab);
+            Destroy(EnemyMissilePrefab);
+        }
+    }
+
+    public void GameOver()　　//GameOver文字を表示・リトライボタンを出す
+    {
+        gameOverText.SetActive(true);
+        retryButton.SetActive(true);
+        timer.Gameoverstoptimer();
+        Destroy(Playership1);
+        Destroy(bulletPrefab);
+        Destroy(Enemy2ndGenerater);
+
+
+    }
+
+    public void RetryScene()　　　//Mainシーンをロード
+    {
+        SceneManager.LoadScene("first");
+
+    }
+    public void RetryScene2nd()　　　//Mainシーンをロード
+    {
+        SceneManager.LoadScene("Second");
+
+    }
+    public void RetryScene3rd()　　　//Mainシーンをロード
+    {
+        SceneManager.LoadScene("Third");
+
+    }
+
+
+    public void FirstToSecondButton()
+    {
+        SceneManager.LoadScene("Second");
+    }
+
+    public void SecondToThirdButton()
+    {
+        SceneManager.LoadScene("Third");
+    }
+    public void ThirdTo4ThButton()
+    {
+        SceneManager.LoadScene("4th");
+    }
+    public void Ending()
+    {
+        SceneManager.LoadScene("GameClear");
+    }
+    public void ClearToTitle()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
+
+
+   　public void GameCrearStage()
+    {
+        GameCrearStageNextText.SetActive(true);
+       
+        audioSource.PlayOneShot(clearSE);
+    }
+    public void Result()
+    {
+        ResultText.SetActive(true);
+        audioSource.PlayOneShot(resultSE);
+    }
+
+    public void stageNext()
+    {
+        stageNextButton.SetActive(true);
+        audioSource.PlayOneShot(nextStageSE);
+    }
+
+    public void BestTime()
+    {
+        BestTimeText.SetActive(true);
+        audioSource.PlayOneShot(BestTimeSE);
+    }
+    
+}
+
+
+   
+
+
