@@ -1,0 +1,80 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
+
+public class Timer : MonoBehaviour
+{
+
+    public int stageNumber;
+    private bool timerStart;
+    private bool timerFinished;
+    public float totalTime;
+    public Text currentText;  //右上で計測しているタイム
+    public GameController gameController;
+    public Text BestTimeText;
+    private float BestTime; //ベストタイム計算用変数
+    private string key = "BestTime"; //ベストタイムの保存先キー
+    public void Start()
+    {
+        timerStart = true;
+        timerFinished = false;
+        totalTime = 0;
+        //********** 開始 **********//
+        //保存しておいたハイスコアをキーで呼び出し取得
+        //保存されていなければ0が返る
+        BestTime = PlayerPrefs.GetFloat(key + stageNumber, 100000000000000);
+        //ハイスコアを表示
+        BestTimeText.text = "BestTime: " + BestTime.ToString();
+        //********** 終了 **********//
+    }
+
+    public void FixedUpdate()
+    {
+        if (timerStart == true && timerFinished == false)
+            totalTime += Time.deltaTime;
+
+        currentText.text = "time"+totalTime.ToString("F2");
+    }
+
+    public void ShowBestTime()
+    {
+        
+        //ハイスコアより現在スコアが高い時
+        if (BestTime > totalTime)
+        {
+            //ハイスコア更新
+            BestTime = totalTime;
+            //ハイスコアを保存
+            PlayerPrefs.SetFloat(key + stageNumber,BestTime);
+            //ハイスコアを表示
+            BestTimeText.text = "BestTime: " + BestTime.ToString();
+        }
+        
+    }
+    //********** 終了 **********//
+
+    public void StopTimer()
+    {
+       
+        if (gameController.score == 1000)
+        {
+            ShowBestTime();
+            if (timerStart == false)
+                timerStart = true;
+            else
+                timerFinished = true;
+        }
+    }
+
+    public void Gameoverstoptimer()
+    {
+        timerFinished = true;
+    }
+
+
+}
+
+
