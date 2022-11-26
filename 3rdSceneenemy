@@ -1,0 +1,52 @@
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Random = UnityEngine.Random;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+public class Enemy3rd : MonoBehaviour
+{
+
+    public int enemyHP;
+    public GameController gameController;
+    public GameObject explosion;
+    float offSet;
+    void Start()
+    {
+        offSet = Random.Range(0, 2f * Mathf.PI);
+    }
+    void Update()
+    {
+        transform.position -= new Vector3(
+            Mathf.Cos(Time.frameCount * 0.05f + offSet) * 0.01f,
+            Time.deltaTime, 0);
+        if (transform.position.y < -5)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") == true)
+        {
+            Instantiate(explosion, collision.transform.position, transform.rotation);
+            gameController.GameOver();
+
+
+        }
+
+        else if (collision.CompareTag("Bullet") == true)
+        {
+            gameController.AddScore();
+        }
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
+        Destroy(collision.gameObject);
+
+    }
+}
+
