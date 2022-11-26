@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class EnemyShip : MonoBehaviour
+{
+	public Shot2ndButton shot2NdButton;
+	Rigidbody2D rb;
+	public int moveSpeed = 2;
+	public GameObject EnemyShipPrefab;
+
+	public void Start()
+	{
+		rb = GetComponent<Rigidbody2D>();
+	}
+
+	public void FixedUpdate()
+	{
+		//********** 開始 **********//
+		//localScale.xには1か-1が入る
+		rb.velocity = new Vector2(transform.localScale.x * moveSpeed,
+			rb.velocity.y);
+		//********** 終了 **********//
+	}
+
+	//********** 開始 **********//
+	public void OnCollisionEnter2D(Collision2D col)
+	{ //2Dの衝突判定
+		if (col.gameObject.tag == "Wall")
+		{   //Wallタグのついたオブジェクトと衝突時
+			//localScaleを変数に格納
+			Vector2 temp = gameObject.transform.localScale;
+			//localScale.xに-1をかける
+			temp.x *= -1;
+			//結果を戻す
+			gameObject.transform.localScale = temp;
+		}
+		if(col.gameObject.tag=="Bullet")
+        {
+			
+				shot2NdButton.GetItem();
+				Destroy(gameObject);
+			
+
+		}
+	}
+	//********** 終了 **********/
