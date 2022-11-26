@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerBullet : MonoBehaviour
+{
+    public Shot2ndButton shot2NdButton;
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position += new Vector3(0, 5f, 0)*Time.deltaTime;
+
+        if(transform.position.y >4)
+        {
+            Destroy(gameObject);
+        }
+    }
+   
+}
