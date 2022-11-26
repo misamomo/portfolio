@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ShotButton : MonoBehaviour
+{
+    AudioSource audioSource;
+    public AudioClip shotSE;
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+
+    public void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void PushButton()
+    {
+        
+            Instantiate(bulletPrefab, firePoint.position, transform.rotation);
+      
+            audioSource.PlayOneShot(shotSE);
+        
+
+    }
+    
+    }
