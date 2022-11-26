@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CurrentTextPosition : MonoBehaviour
+{
+    public GameController gameController;
+    public RectTransform a;//RectTransform型の変数aを宣言　作成したテキストオブジェクトをアタッチしておく
+    
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (gameController.score == 1000)
+        {
+            GetComponent<RectTransform>().anchoredPosition = new Vector3(-101, -99,0);
+           
+        }
+
+        Invoke("Update", 9);
+    }
+}
