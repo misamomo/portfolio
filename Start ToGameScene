@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class StartToGameScene : MonoBehaviour
+{
+    public GameObject TitleText;
+    AudioSource audioSource;
+    public AudioClip startbuttonSE;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    // Update is called once per frame
+    public void PushButton()
+    {
+        SceneManager.LoadScene("first");
+        audioSource.PlayOneShot(startbuttonSE);
+    }
+}
